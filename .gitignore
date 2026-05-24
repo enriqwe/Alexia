@@ -1,0 +1,16 @@
+.env
+*.env
+__pycache__/
+*.py[cod]
+node_modules/
+profile/
+state/
+data/
+repository/
+*.png
+*.log
+facturas-*.json
+facturas-repository/facturas.json
+facturas-repository/index.html
+facturas-repository/pdf/
+facturas-repository/.git/
