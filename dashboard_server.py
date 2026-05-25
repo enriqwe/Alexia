@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-from flask import Flask, send_from_directory
+from flask import Flask, redirect
 
 from auth_core import AuthManager, init_user_from_cli
 
@@ -16,16 +16,19 @@ auth = AuthManager(BASE_DIR, "Alexia")
 auth.init_app(app)
 
 
+def public_dashboard(path: str = "") -> str:
+    base = os.environ.get("PUBLIC_DASHBOARD_URL", "https://enriqwe.es/facturas/").rstrip("/") + "/"
+    return base + path.lstrip("/")
+
+
 @app.get("/")
-@auth.require_login
 def index():
-    return send_from_directory(WEB_DIR, "index.html")
+    return redirect(public_dashboard(), code=302)
 
 
 @app.get("/<path:path>")
-@auth.require_login
 def static_files(path):
-    return send_from_directory(WEB_DIR, path)
+    return redirect(public_dashboard(path), code=302)
 
 
 def main():
